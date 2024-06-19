@@ -1,0 +1,54 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
+	<h5 class="my-3 border-bottom pb-2">답변 수정</h5>
+	<form th:object="${answerForm}" method="post">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+		<div class="mb-3">
+			<label for="content" class="form-label">내용</label>
+			<textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+		</div>
+		<input type="submit" value="저장하기" class="btn btn-primary my-2">
+	</form>
+</div>
+
+<footer id="footer-wrap"> <!-- footer : start-->
+	<div class="inner">
+		<div class="logo-sns"><!--logo-sns :start-->
+			<img src="/images/lcs_footer_logo.png" alt="로고이미지">
+			<div class="sns"><!--sns : start-->
+				<a href="https://blog.naver.com/seochowomen" target="_blank"><img src="/images/footer-naver.png" alt="네이버 sns 바로가기"></a>
+				<a href="https://www.facebook.com/seochowomen2016" target="_blank"><img src="/images/footer-facebook.png" alt="페이스북 sns 바로가기"></a>
+				<a href="https://www.youtube.com/channel/UC5L6G0Eh04X-wl1eJCjU_rg" target="_blank"><img src="/images/footer-youtube.png" alt="유튜브 바로가기"></a>
+				<a href="https://www.instagram.com/seochowomen/" target="_blank"><img src="/images/footer-insta.png" alt="인스타 sns 바로가기"></a>
+				<a href="https://pf.kakao.com/_ZeJMC" target="_blank"><img src="/images/footer-kakao.png" alt="카카오톡 바로가기"></a>
+
+			</div><!-- sns : end-->
+		</div><!-- logo-sns : end-->
+		<div class="content"><!--content : start-->
+			<div>
+				<a href="#">개인정보 취급방침</a>
+				<a href="#">이용약관</a>
+				<a href="#">사이트맵</a>
+				<a href="#">오시는길</a>
+			</div>
+			<div class="family">
+				<a href="#" class="click" onclick="return false">
+					퀵 리스트<i class="icon" role="img"></i>
+				</a>
+				<ul>
+					<li><a href="https://www.seocho.go.kr/site/seocho/main.do" target="_blank">축제</a></li>
+					<li><a href="https://seochowomen.kr/seocho/index.do" target="_blank">여행</a></li>
+					<li><a href="https://www.bbcenter.or.kr/main/index.do" target="_blank">커뮤니티</a></li>
+				</ul>
+			</div>
+		</div><!--content : end-->
+		<p>부산 부산진구 중앙대로 708 부산파이낸스센터 4층 </br>
+			대표전화: 010-9810-8268</br>
+			사업자등록번호 114-82-61807</br>
+			팀명 : 2조(임채수,홍진태,오현제,문수연)</br>
+			</br>
+			Copyright ⓒ. All Rights Reserved.</p>
+	</div>
+</footer>
+</html>

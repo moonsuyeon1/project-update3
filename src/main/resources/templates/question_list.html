@@ -1,0 +1,119 @@
+
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+	<div class="row my-3">
+		<div class="col-6">
+			<a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+		</div>
+		<div class="col-6">
+			<div class="input-group">
+				<input type="text" id="search_kw" class="form-control" th:value="${kw}">
+				<button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+			</div>
+		</div>
+	</div>
+	<table class="table">
+		<thead class="table-dark">
+			<tr class="text-center">
+				<th>번호</th>
+				<th style="width:50%">제목</th>
+				<th>글쓴이</th>
+				<th>작성일시</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-center" th:each="question, loop : ${paging}">
+				<td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+				<td class="text-start">
+					<a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+					<span class="text-danger small ms-2" th:if="${#lists.size(question.answerList) > 0}"
+						th:text="${#lists.size(question.answerList)}">
+					</span>
+				</td>
+				<td><span th:if="${question.author != null}" th:text="${question.author.username}"></span></td>
+				<td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- 페이징처리 시작 -->
+	<div th:if="${!paging.isEmpty()}">
+		<ul class="pagination justify-content-center">
+			<li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+					<span>이전</span>
+				</a>
+			</li>
+			<li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+				th:if="${page >= paging.number-5 and page <= paging.number+5}"
+				th:classappend="${page == paging.number} ? 'active'" class="page-item">
+				<a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+			</li>
+			<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+				<a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+					<span>다음</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 페이징처리 끝 -->
+	<form th:action="@{/question/list}" method="get" id="searchForm">
+		<input type="hidden" id="kw" name="kw" th:value="${kw}">
+		<input type="hidden" id="page" name="page" th:value="${paging.number}">
+	</form>
+</div>
+<script layout:fragment="script" type='text/javascript'>
+	const page_elements = document.getElementsByClassName("page-link");
+	Array.from(page_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			document.getElementById('page').value = this.dataset.page;
+			document.getElementById('searchForm').submit();
+		});
+	});
+	const btn_search = document.getElementById("btn_search");
+	btn_search.addEventListener('click', function () {
+		document.getElementById('kw').value = document.getElementById('search_kw').value;
+		document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+		document.getElementById('searchForm').submit();
+	});
+</script>
+
+<footer id="footer-wrap"> <!-- footer : start-->
+	<div class="inner">
+		<div class="logo-sns"><!--logo-sns :start-->
+			<img src="/images/lcs_footer_logo.png" alt="로고이미지">
+			<div class="sns"><!--sns : start-->
+				<a href="https://blog.naver.com/seochowomen" target="_blank"><img src="/images/footer-naver.png" alt="네이버 sns 바로가기"></a>
+				<a href="https://www.facebook.com/seochowomen2016" target="_blank"><img src="/images/footer-facebook.png" alt="페이스북 sns 바로가기"></a>
+				<a href="https://www.youtube.com/channel/UC5L6G0Eh04X-wl1eJCjU_rg" target="_blank"><img src="/images/footer-youtube.png" alt="유튜브 바로가기"></a>
+				<a href="https://www.instagram.com/seochowomen/" target="_blank"><img src="/images/footer-insta.png" alt="인스타 sns 바로가기"></a>
+				<a href="https://pf.kakao.com/_ZeJMC" target="_blank"><img src="/images/footer-kakao.png" alt="카카오톡 바로가기"></a>
+
+			</div><!-- sns : end-->
+		</div><!-- logo-sns : end-->
+		<div class="content"><!--content : start-->
+			<div>
+				<a href="#">개인정보 취급방침</a>
+				<a href="#">이용약관</a>
+				<a href="#">사이트맵</a>
+				<a href="#">오시는길</a>
+			</div>
+			<div class="family">
+				<a href="#" class="click" onclick="return false">
+					퀵 리스트<i class="icon" role="img"></i>
+				</a>
+				<ul>
+					<li><a href="https://www.seocho.go.kr/site/seocho/main.do" target="_blank">축제</a></li>
+					<li><a href="https://seochowomen.kr/seocho/index.do" target="_blank">여행</a></li>
+					<li><a href="https://www.bbcenter.or.kr/main/index.do" target="_blank">커뮤니티</a></li>
+				</ul>
+			</div>
+		</div><!--content : end-->
+		<p>부산 부산진구 중앙대로 708 부산파이낸스센터 4층 </br>
+			대표전화: 010-9810-8268</br>
+			사업자등록번호 114-82-61807</br>
+			팀명 : 2조(임채수,홍진태,오현제,문수연)</br>
+			</br>
+			Copyright ⓒ. All Rights Reserved.</p>
+	</div>
+</footer>
+</html>
